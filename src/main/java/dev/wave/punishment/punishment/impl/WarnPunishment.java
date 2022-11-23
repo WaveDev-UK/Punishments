@@ -1,5 +1,6 @@
 package dev.wave.punishment.punishment.impl;
 
+import dev.wave.punishment.Punishments;
 import dev.wave.punishment.punishment.Punishment;
 import dev.wave.punishment.punishment.PunishmentType;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,6 @@ public class WarnPunishment implements Punishment {
 
     @Override
     public void execute() {
-
+        Punishments.getInstance().getUserManager().get(getTarget().getUniqueId()).addPunishment(this);
     }
 }

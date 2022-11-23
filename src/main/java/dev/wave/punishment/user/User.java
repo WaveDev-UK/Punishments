@@ -48,4 +48,10 @@ public class User {
     }
 
 
+    public void removeActivePunishment(Punishment activePunishment) {
+        punishmentList.remove(activePunishment);
+        activePunishmentList.remove(activePunishment);
+        activePunishment.setActive(false);
+        punishmentList.add(activePunishment);
+    }
 }

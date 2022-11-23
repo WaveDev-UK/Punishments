@@ -8,6 +8,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.internal.MongoDatabaseImpl;
 import dev.wave.punishment.command.HistoryCommand;
 import dev.wave.punishment.configuration.Config;
+import dev.wave.punishment.listener.AsyncPlayerChatListener;
 import dev.wave.punishment.listener.PlayerJoinListener;
 import dev.wave.punishment.user.UserManager;
 import lombok.Getter;
@@ -40,7 +41,7 @@ public final class Punishments extends CustomPlugin {
 
         this.userManager = new UserManager();
 
-        registerEvents(new PlayerJoinListener());
+        registerEvents(new PlayerJoinListener(), new AsyncPlayerChatListener());
 
         registerCommands(new HistoryCommand());
 

@@ -1,5 +1,6 @@
 package dev.wave.punishment.punishment.impl;
 
+import dev.wave.punishment.Punishments;
 import dev.wave.punishment.punishment.Punishment;
 import dev.wave.punishment.punishment.PunishmentType;
 import lombok.AllArgsConstructor;
@@ -27,9 +28,11 @@ public class BanPunishment implements Punishment {
     @Override
     public void execute() {
         Bukkit.getBanList(BanList.Type.NAME).addBan(target.getName(), reason, expiryDate, author == null ? "Console" : author.getName());
+        Punishments.getInstance().getUserManager().get(getTarget().getUniqueId()).addPunishment(this);
         if(author == null || !author.isOnline()){
             return;
         }
+
     }
 
     @Override

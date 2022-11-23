@@ -51,8 +51,8 @@ public interface Punishment {
         return "§7[§c" + getType().name() + "§7] §c"
                 + getTarget().getName() + " §7by §c"
                 + getAuthor().getName() + " §7for §c"
-                + getReason() + " §7on §c"
-                + new Date().toString()
+                + getReason() + " §7Expires §c"
+                + getExpiryDate() == null ? "Never" : getExpiryDate().toString()
                 + "§7[" + (isActive() ? "§aActive" : "§cInactive") + "§7]";
     }
     String getReason();
@@ -67,8 +67,7 @@ public interface Punishment {
     Date getExpiryDate();
 
     PunishmentType getType();
-    default void execute(){
-        Punishments.getInstance().getUserManager().get(getTarget().getUniqueId()).addPunishment(this);
-    }
+
+    void execute();
 
 }
