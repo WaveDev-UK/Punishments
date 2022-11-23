@@ -34,13 +34,13 @@ public class PunishmentPacket {
     public Punishment toPunishment(){
         switch(PunishmentType.valueOf(type)){
             case BAN:
-                return new BanPunishment(reason, Bukkit.getOfflinePlayer(UUID.fromString(author)), Bukkit.getOfflinePlayer(UUID.fromString(target)), new Date(expiryDate));
+                return new BanPunishment(reason, Bukkit.getOfflinePlayer(UUID.fromString(author)), Bukkit.getOfflinePlayer(UUID.fromString(target)), new Date(expiryDate), active);
             case KICK:
-                return new KickPunishment(reason, Bukkit.getOfflinePlayer(UUID.fromString(author)), Bukkit.getOfflinePlayer(UUID.fromString(target)), new Date(expiryDate));
+                return new KickPunishment(reason, Bukkit.getOfflinePlayer(UUID.fromString(author)), Bukkit.getOfflinePlayer(UUID.fromString(target)), new Date(expiryDate), active);
             case MUTE:
-                return new MutePunishment(reason, Bukkit.getOfflinePlayer(UUID.fromString(author)), Bukkit.getOfflinePlayer(UUID.fromString(target)), new Date(expiryDate));
+                return new MutePunishment(reason, Bukkit.getOfflinePlayer(UUID.fromString(author)), Bukkit.getOfflinePlayer(UUID.fromString(target)), new Date(expiryDate), active);
             case WARN:
-                return new WarnPunishment(reason, Bukkit.getOfflinePlayer(UUID.fromString(author)), Bukkit.getOfflinePlayer(UUID.fromString(target)), new Date(expiryDate));
+                return new WarnPunishment(reason, Bukkit.getOfflinePlayer(UUID.fromString(author)), Bukkit.getOfflinePlayer(UUID.fromString(target)), new Date(expiryDate), active);
             default:
                 return null;
         }

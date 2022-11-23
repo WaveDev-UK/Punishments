@@ -28,7 +28,7 @@ public class User {
         punishmentList.add(punishment);
     }
 
-    private void pullPunishments(){
+    private void pullPunishments() {
         MongoCollection<Document> collection;
         try{
             collection = Punishments.getInstance().getDatabase().getCollection(uuid.toString());

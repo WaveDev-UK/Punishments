@@ -6,23 +6,26 @@ import com.mongodb.MongoClientURI;
 import com.mongodb.MongoCredential;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.internal.MongoDatabaseImpl;
+import dev.wave.punishment.command.HistoryCommand;
 import dev.wave.punishment.configuration.Config;
+import dev.wave.punishment.listener.PlayerJoinListener;
+import dev.wave.punishment.user.UserManager;
 import lombok.Getter;
 import me.dan.pluginapi.configuration.Configuration;
 import me.dan.pluginapi.file.YamlFile;
+import me.dan.pluginapi.plugin.CustomPlugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @Getter
-public final class Punishments extends JavaPlugin {
-
-
+public final class Punishments extends CustomPlugin {
     @Getter
     private static Punishments instance;
 
+    private UserManager userManager;
     private MongoClient mongoClient;
     private MongoDatabase database;
     @Override
-    public void onEnable() {
+    public void enable() {
         instance = this;
         Configuration.loadConfig(new YamlFile("config.yml", this.getDataFolder().getAbsolutePath(), null, this), Config.values());
         String mongoClientURIString = "mongodb://" + Config.MONGO_USER.getString() + ":" + Config.MONGO_PASSWORD.getString() + "@" + Config.MONGO_HOST.getString() + ":" + Config.MONGO_PORT.getInt();
@@ -35,13 +38,17 @@ public final class Punishments extends JavaPlugin {
 
         this.database = mongoClient.getDatabase(Config.MONGO_DATABASE.getString());
 
+        this.userManager = new UserManager();
 
+        registerEvents(new PlayerJoinListener());
 
+        registerCommands(new HistoryCommand());
 
     }
 
+
     @Override
-    public void onDisable() {
+    public void disable() {
         // Plugin shutdown logic
     }
 }

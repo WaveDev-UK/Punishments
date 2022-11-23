@@ -1,5 +1,6 @@
 package dev.wave.punishment.punishment;
 
+import dev.wave.punishment.Punishments;
 import dev.wave.punishment.punishment.impl.BanPunishment;
 import dev.wave.punishment.punishment.impl.KickPunishment;
 import dev.wave.punishment.punishment.impl.MutePunishment;
@@ -46,6 +47,14 @@ public interface Punishment {
         }
     }
 
+    default String asHistory(){
+        return "§7[§c" + getType().name() + "§7] §c"
+                + getTarget().getName() + " §7by §c"
+                + getAuthor().getName() + " §7for §c"
+                + getReason() + " §7on §c"
+                + new Date().toString()
+                + "§7[" + (isActive() ? "§aActive" : "§cInactive") + "§7]";
+    }
     String getReason();
 
     boolean isActive();
@@ -58,6 +67,8 @@ public interface Punishment {
     Date getExpiryDate();
 
     PunishmentType getType();
-    void execute();
+    default void execute(){
+        Punishments.getInstance().getUserManager().get(getTarget().getUniqueId()).addPunishment(this);
+    }
 
 }
