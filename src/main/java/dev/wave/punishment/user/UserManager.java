@@ -31,7 +31,6 @@ public class UserManager extends Manager<UUID, User> {
         for (OfflinePlayer offlinePlayer : Bukkit.getServer().getOfflinePlayers()) {
             User user = new User(offlinePlayer.getUniqueId());
             insert(user.getUuid(), user);
-
         }
 
         for (Player player : Bukkit.getOnlinePlayers()) {

@@ -1,4 +1,5 @@
 name: Punishments
 version: '${project.version}'
 main: dev.wave.punishment.Punishments
-api-version: 1.19
+depend:
+  - PluginAPI

@@ -30,9 +30,9 @@ public enum Config implements Configuration {
                             " ",
                             "&7Punishment: &c{punishment}",
                             "&7Reason: &c{reason}",
-                            "&7Date: &c{date}",
                             "&7Expires: &c{expires}",
                             "&7Author: &c{author}",
+                            "&7Active: &c{active}",
                             " ",
                             "&8&l&m-------------------"
                     )
@@ -57,8 +57,7 @@ public enum Config implements Configuration {
                             7,
                             8,
                             9,
-                            45,
-                            47,
+                            46,
                             48,
                             50,
                             51,
@@ -67,18 +66,18 @@ public enum Config implements Configuration {
                             .setKey("spacer-1")
                             .setItem(Item.builder()
                                     .amount(1)
-                                    .material("black-stained-glass-pane")
+                                    .material("black_stained_glass_pane")
                                     .build()),
                     new MenuItem()
                             .setSlots(5, 49)
                             .setKey("spacer-2")
                             .setItem(Item.builder()
                                     .amount(1)
-                                    .material("white-stained-glass-pane")
+                                    .material("white_stained_glass_pane")
                                     .build()),
                     new MenuItem()
                             .setSlots(
-                                    46
+                                    47
                             )
                             .setItem(Item.builder()
                                     .material("arrow")

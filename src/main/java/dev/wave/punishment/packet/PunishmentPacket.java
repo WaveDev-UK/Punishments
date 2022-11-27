@@ -27,7 +27,7 @@ public class PunishmentPacket {
         this.reason = punishment.getReason();
         this.target = punishment.getTarget().getUniqueId().toString();
         this.type = punishment.getType().name();
-        this.expiryDate = punishment.getExpiryDate().getTime();
+        this.expiryDate = punishment.getExpiryDate() == null ? -1 : punishment.getExpiryDate().getTime();
         this.active = punishment.isActive();
     }
 

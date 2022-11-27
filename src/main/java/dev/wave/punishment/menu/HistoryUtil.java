@@ -44,6 +44,11 @@ public class HistoryUtil {
         int slot = 9;
 
         for(int i = start; i < start+36; i++){
+
+            if(i >= user.getPunishmentList().size()){
+                break;
+            }
+
             Punishment punishment = user.getPunishmentList().get(i);
 
             inventory.setItem(slot, null);

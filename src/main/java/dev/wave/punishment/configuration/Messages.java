@@ -15,6 +15,13 @@ public enum Messages implements Configuration, Message {
     PREFIX("prefix", "&8[&cPunishments&8] &e"),
     NEVER_PLAYED("never-played", "&cThis player has never played before."),
     BAN("ban", "{prefix}{target} &7has been banned for &e{reason} &7by &e{author}"),
+    BAN_MESSAGE("ban-message", "&cYou have been banned for &e{reason} &cby &e{author}. &cExpires: &e{expiryDate}"),
+    MUTE_MESSAGE("mute-message", "&cYou are muted for &e{reason} &cby &e{author}. &cExpires: &e{expiryDate}"),
+    UNBAN_SUCCESS("unban-success", "{prefix}{target} &7has been unbanned."),
+    UNBAN_FAILURE("unban-failure", "{prefix}{target} &7is not banned."),
+
+    UNMUTE_SUCCESS("unmute-success", "{prefix}{target} &7has been unmuted."),
+    UNMUTE_FAILURE("unmute-failure", "{prefix}{target} &7is not muted."),
     MUTE("mute", "{prefix}{target} &7has been muted for &e{reason} &7by &e{author}"),
     WARN("warn", "{prefix}{target} &7has been warned for &e{reason} &7by &e{author}"),
 

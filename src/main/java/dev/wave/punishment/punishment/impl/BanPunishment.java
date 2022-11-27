@@ -1,11 +1,14 @@
 package dev.wave.punishment.punishment.impl;
 
 import dev.wave.punishment.Punishments;
+import dev.wave.punishment.configuration.Messages;
 import dev.wave.punishment.punishment.Punishment;
 import dev.wave.punishment.punishment.PunishmentType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import me.dan.pluginapi.message.Placeholder;
+import me.dan.pluginapi.util.Text;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -27,10 +30,12 @@ public class BanPunishment implements Punishment {
 
     @Override
     public void execute() {
-        Bukkit.getBanList(BanList.Type.NAME).addBan(target.getName(), reason, expiryDate, author == null ? "Console" : author.getName());
         Punishments.getInstance().getUserManager().get(getTarget().getUniqueId()).addPunishment(this);
-        if(author == null || !author.isOnline()){
-            return;
+        if(target.isOnline()){
+
+            target.getPlayer().kickPlayer(Text.c(Placeholder.apply(Messages.BAN_MESSAGE.getString(), new Placeholder("{reason}", getReason()),
+                    new Placeholder("{author}", getAuthor() == null ? "Console" : getAuthor().getName()),
+                    new Placeholder("{expiryDate}", getExpiryDate() == null ? "Never" : getExpiryDate().toString()))));
         }
 
     }

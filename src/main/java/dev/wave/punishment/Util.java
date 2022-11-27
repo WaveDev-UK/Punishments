@@ -4,39 +4,45 @@ public class Util {
 
     public static long getTime(final String[] args) {
         final String arg = args[1].toLowerCase();
+
+        String modifierString;
         int modifier;
-        if ("hour".startsWith(arg)) {
+        if (arg.contains("hour")) {
             modifier = 3600;
-        } else if ("minute".startsWith(arg)) {
+            modifierString = "hour";
+        } else if (arg.contains("minute")) {
+            modifierString = "minute";
             modifier = 60;
-        } else if ("second".startsWith(arg)) {
+        } else if (arg.contains("second")) {
+            modifierString = "second";
             modifier = 1;
-        } else if ("week".startsWith(arg)) {
+        } else if (arg.contains("week")) {
+            modifierString = "week";
             modifier = 604800;
-        } else if ("day".startsWith(arg)) {
+        } else if (arg.contains("day")) {
+            modifierString = "day";
             modifier = 86400;
-        } else if ("year".startsWith(arg)) {
+        } else if (arg.contains("year")) {
+            modifierString = "year";
             modifier = 31449600;
-        } else if ("month".startsWith(arg)) {
+        } else if (arg.contains("month")) {
+            modifierString = "month";
             modifier = 2620800;
         } else {
-            modifier = 0;
+            modifier = 1;
+            modifierString = "second";
         }
 
         double time = 0.0D;
 
+        String timeString = args[1].replace(modifierString, "").replace("s", "");
+
         try {
-            time = Double.parseDouble(args[1]);
+            time = Double.parseDouble(timeString);
         } catch (NumberFormatException ignored) {
             return -1L;
         }
 
-        for (int j = 0; j < args.length - 2; ++j) {
-            args[j] = args[(j + 2)];
-        }
-
-        args[args.length - 1] = "";
-        args[args.length - 2] = "";
         return (long) (modifier * time) * 1000L;
     }
 

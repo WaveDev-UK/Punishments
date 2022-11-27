@@ -21,6 +21,7 @@ public interface Punishment {
 
     static Punishment fromDocument(Document document) {
         if(!document.containsKey("type")){
+            System.out.println("no type");
             return null;
         }
 
@@ -28,13 +29,14 @@ public interface Punishment {
         try{
             type = PunishmentType.valueOf(document.getString("type"));
         }catch (IllegalArgumentException e){
+            System.out.println("invalid type");
             return null;
         }
 
         OfflinePlayer author = Bukkit.getOfflinePlayer(UUID.fromString(document.getString("author")));
         OfflinePlayer target = Bukkit.getOfflinePlayer(UUID.fromString(document.getString("target")));
         String reason = document.getString("reason");
-        Date expiryDate = new Date(document.getLong("expiryDate"));
+        Date expiryDate = document.getLong("expiryDate") == -1 ? null : new Date(document.getLong("expiryDate"));
         boolean active = document.getBoolean("active");
 
         switch (type){
@@ -78,10 +80,10 @@ public interface Punishment {
         Item item = Config.HISTORY_ITEM.getItem();
 
        return item.toItemStack(new Placeholder("{reason}", getReason()),
-                new Placeholder("{author}", getAuthor().getName()),
+                new Placeholder("{author}", getAuthor() == null ? "Console": getAuthor().getName()),
                 new Placeholder("{target}", getTarget().getName()),
-                new Placeholder("{expiryDate}", getExpiryDate() == null ? "Never" : getExpiryDate().toString()),
+                new Placeholder("{expires}", getExpiryDate() == null ? "Never" : getExpiryDate().toString()),
                 new Placeholder("{active}", isActive() ? "Active" : "Inactive"),
-                new Placeholder("{type}", getType().name()));
+                new Placeholder("{punishment}", getType().name()));
     }
 }

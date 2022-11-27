@@ -1,5 +1,7 @@
 package dev.wave.punishment.user;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.mongodb.client.MongoCollection;
 import dev.wave.punishment.Punishments;
 import dev.wave.punishment.packet.SavePacket;
@@ -33,6 +35,9 @@ public class User {
 
     public void addPunishment(Punishment punishment) {
         punishmentList.add(punishment);
+        if(punishment.isActive()){
+            activePunishmentList.add(punishment);
+        }
     }
 
     private void pullPunishments() {
@@ -40,26 +45,39 @@ public class User {
         try {
             collection = Punishments.getInstance().getDatabase().getCollection(uuid.toString());
         } catch (IllegalArgumentException e) {
+            e.printStackTrace();
             Punishments.getInstance().getDatabase().createCollection(uuid.toString());
             return;
         }
+
+
         for (Document document : collection.find()) {
-            Punishment punishment = Punishment.fromDocument(document);
-            if (punishment == null) {
+
+            if(!document.containsKey("punishments")){
                 continue;
             }
 
-            punishmentList.add(punishment);
-            if (!punishment.isActive()) {
-                continue;
-            }
+            List<Document> punishments = document.getList("punishments", Document.class);
 
-            if(punishment.getExpiryDate() != null && punishment.getExpiryDate().getTime() < System.currentTimeMillis()){
-                punishment.setActive(false);
-                continue;
-            }
+            for(Document doc: punishments) {
 
-            activePunishmentList.add(punishment);
+                Punishment punishment = Punishment.fromDocument(doc);
+                if (punishment == null) {
+                    continue;
+                }
+
+                punishmentList.add(punishment);
+                if (!punishment.isActive()) {
+                    continue;
+                }
+
+                if (punishment.getExpiryDate() != null && punishment.getExpiryDate().getTime() < System.currentTimeMillis()) {
+                    punishment.setActive(false);
+                    continue;
+                }
+
+                activePunishmentList.add(punishment);
+            }
         }
 
         new SavePacket(this).save();

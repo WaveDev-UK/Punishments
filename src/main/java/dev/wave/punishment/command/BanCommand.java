@@ -35,15 +35,16 @@ public class BanCommand extends AbstractCommand {
 
         boolean silent = commandContext.getArgs()[commandContext.getArgs().length - 1].equalsIgnoreCase("-s");
 
+        int start = time == -1 ? 1 : 2;
+        int end = silent ? commandContext.getArgs().length - 1 : commandContext.getArgs().length;
+
+        for(int i = start; i < end; i++){
+            reason += commandContext.getArgs()[i] + " ";
+        }
+
         if(silent) {
-            for (int i = 1; i < commandContext.getArgs().length - 1; i++) {
-                reason += commandContext.getArgs()[i] + " ";
-                Messages.BAN.send(commandContext.getCommandSender(),new Placeholder("{target}", target.getName()), new Placeholder("{reason}", reason), new Placeholder("{author}", commandContext.getCommandSender().getName()));
-            }
+            Messages.BAN.send(commandContext.getCommandSender(),new Placeholder("{target}", target.getName()), new Placeholder("{reason}", reason), new Placeholder("{author}", commandContext.getCommandSender().getName()));
         } else {
-            for (int i = 1; i < commandContext.getArgs().length; i++) {
-                reason += commandContext.getArgs()[i] + " ";
-            }
             Messages.BAN.broadcast(new Placeholder("{target}", target.getName()), new Placeholder("{reason}", reason), new Placeholder("{author}", commandContext.getCommandSender().getName()));
         }
 

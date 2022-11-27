@@ -31,27 +31,24 @@ public class MuteCommand extends AbstractCommand {
 
         long time = Util.getTime(commandContext.getArgs());
 
-        String reason = "";
+
 
         boolean silent = commandContext.getArgs()[commandContext.getArgs().length - 1].equalsIgnoreCase("-s");
 
-        int start;
+        String reason = "";
 
-        if(time > -1){
-            start = 2;
-        }else{
-            start = 1;
+        int start = time == -1 ? 1 : 2;
+        int end = silent ? commandContext.getArgs().length - 1 : commandContext.getArgs().length;
+
+        for(int i = start; i < end; i++){
+            reason += commandContext.getArgs()[i] + " ";
         }
 
         if(silent) {
-            for (int i = start; i < commandContext.getArgs().length - 1; i++) {
-                reason += commandContext.getArgs()[i] + " ";
-            }
+
             Messages.MUTE.send(commandContext.getCommandSender() ,new Placeholder("{target}", target.getName()), new Placeholder("{reason}", reason), new Placeholder("{author}", commandContext.getCommandSender().getName()));
         } else {
-            for (int i = start; i < commandContext.getArgs().length; i++) {
-                reason += commandContext.getArgs()[i] + " ";
-            }
+
             Messages.MUTE.broadcast(new Placeholder("{target}", target.getName()), new Placeholder("{reason}", reason), new Placeholder("{author}", commandContext.getCommandSender().getName()));
         }
 
