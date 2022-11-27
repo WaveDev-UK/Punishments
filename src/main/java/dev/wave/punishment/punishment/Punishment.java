@@ -1,14 +1,18 @@
 package dev.wave.punishment.punishment;
 
 import dev.wave.punishment.Punishments;
+import dev.wave.punishment.configuration.Config;
 import dev.wave.punishment.punishment.impl.BanPunishment;
 import dev.wave.punishment.punishment.impl.KickPunishment;
 import dev.wave.punishment.punishment.impl.MutePunishment;
 import dev.wave.punishment.punishment.impl.WarnPunishment;
+import me.dan.pluginapi.item.Item;
+import me.dan.pluginapi.message.Placeholder;
 import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Date;
 import java.util.UUID;
@@ -70,4 +74,14 @@ public interface Punishment {
 
     void execute();
 
+    default ItemStack getItem(){
+        Item item = Config.HISTORY_ITEM.getItem();
+
+       return item.toItemStack(new Placeholder("{reason}", getReason()),
+                new Placeholder("{author}", getAuthor().getName()),
+                new Placeholder("{target}", getTarget().getName()),
+                new Placeholder("{expiryDate}", getExpiryDate() == null ? "Never" : getExpiryDate().toString()),
+                new Placeholder("{active}", isActive() ? "Active" : "Inactive"),
+                new Placeholder("{type}", getType().name()));
+    }
 }

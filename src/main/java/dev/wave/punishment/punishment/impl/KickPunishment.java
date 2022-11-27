@@ -30,7 +30,7 @@ public class KickPunishment implements Punishment {
     public void execute() {
         Punishments.getInstance().getUserManager().get(getTarget().getUniqueId()).addPunishment(this);
         if(!target.isOnline()){
-
+            target.getPlayer().kickPlayer(reason);
         }
     }
 }
